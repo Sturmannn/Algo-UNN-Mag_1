@@ -1,0 +1,58 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS_INIT": "-Wall -Werror -Wsign-compare"
+      }
+    },
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "description": "Standard debug build",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "description": "Standard release build",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "asan",
+      "displayName": "ASAN",
+      "description": "Build with sanitizers for memory error detection",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "ASAN",
+        "CMAKE_CXX_FLAGS_ASAN": "-g -fsanitize=address,undefined -fno-sanitize-recover=all -O2"
+      }
+    },
+    {
+      "name": "shad_release",
+      "displayName": "SHAD Release",
+      "description": "Build for SHAD",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "SHADREL",
+        "CMAKE_CXX_FLAGS_SHADREL": "-O2 -DNDEBUG"
+      }
+    }
+  ],
+  "buildPresets": [
+    { "name": "debug", "configurePreset": "debug", "jobs": 8 },
+    { "name": "release", "configurePreset": "release", "jobs": 8 },
+    { "name": "asan", "configurePreset": "asan", "jobs": 8 },
+    { "name": "shad_release", "configurePreset": "shad_release", "jobs": 8 }
+  ]
+}
